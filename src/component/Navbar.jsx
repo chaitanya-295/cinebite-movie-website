@@ -8,17 +8,17 @@ function Navbar() {
 
   return (
     <nav className="relative sticky top-0 z-50 bg-[#020617] border-b border-slate-800">
-      <div className="max-w-7xl mx-auto px-3 md:px-6 py-3">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-4">
 
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 w-fit -ml-18"
+          className="flex items-center gap-2 w-fit -ml-16"
         >
           <img
             src={logo}
             alt="CineBite Logo"
-            className="w-12 h-12 object-contain"
+            className="w-10 h-10 object-contain"
           />
 
           <span className="text-2xl font-bold text-white">
@@ -66,7 +66,7 @@ function Navbar() {
         </div>
 
         {/* Right side */}
-        <div className="hidden lg:flex items-center gap-5 absolute right-34 md:right-38 top-1/2 -translate-y-1/2">
+        <div className="hidden lg:flex items-center gap-5 absolute right-24 md:right-28 top-1/2 -translate-y-1/2">
 
           <Link
             to="/login"
