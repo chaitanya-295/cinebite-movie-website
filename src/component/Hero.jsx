@@ -113,7 +113,7 @@ function Hero() {
             Trending Now
           </p>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
             {movie.title}
           </h1>
 
@@ -131,14 +131,14 @@ function Hero() {
           <div className="flex items-center gap-4 mt-6">
             {/* Watch Now */}
             <button
-              className="felx items-center gap-2 px-6 py-3 bg-cyan-400 text-black font-semibold rounded-full hover:bg-cyan-300 transition-all duration-300"
+              className="felx items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-cyan-400 text-black font-semibold text-sm sm:text-base rounded-full hover:bg-cyan-300 transition-all duration-300"
             >
               ▶ Watch Now
             </button>
 
             {/* More Details */}
             <button
-              className="flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300"
+              className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold text-sm sm:text-base rounded-full hover:bg-white/20 transition-all duration-300"
             >
               ⓘ More Details
             </button>
@@ -148,13 +148,13 @@ function Hero() {
           <div className="flex gap-4">
             <button
               onClick={prevSlide}
-              className="absolute left-5 top-1/2 -translate-y-1/2 z-20 p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
+              className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center p-2 sm:p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
             >
               <FaLessThan />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-5 top-1/2 -translate-y-1/2 z-20 p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
+              className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center p-2 sm:p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
             >
               <FaGreaterThan />
             </button>
@@ -165,15 +165,29 @@ function Hero() {
 
       {/* Movie Thumbnail Cards */}
       {/* Movie Carousel */}
-      <div className="absolute bottom-5 left-0 w-full overflow-hidden z-30">
+      <div className="absolute bottom-2 left-0 w-full overflow-hidden z-30">
 
-        <div className="flex gap-4 animate-movie-scroll w-max">
+        <div className="flex gap-3 animate-movie-scroll w-max">
 
           {/* First set */}
           {trendingMovies.map((movie) => (
             <div
               key={`first-${movie.id}`}
-              className="w-20 h-20 md:w-32 md:h-44 flex-shrink-0 overflow-hidden rounded-lg"
+              className="w-16 h-24 md:w-20 md:h-28 flex-shrink-0 overflow-hidden rounded-lg"
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                alt={movie.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+
+          {/* Second set */}
+          {trendingMovies.map((movie) => (
+            <div
+              key={`first-${movie.id}`}
+              className="w-16 h-24 md:w-20 md:h-28 flex-shrink-0 overflow-hidden rounded-lg"
             >
               <img
                 src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
