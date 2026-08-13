@@ -5,3 +5,17 @@ body {
   font-family: Arial, sans-serif;
   background: #020617;
 }
+
+@keyframes movieScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-movie-scroll {
+  animation: movieScroll 35s linear infinite;
+}
