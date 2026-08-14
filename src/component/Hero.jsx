@@ -175,8 +175,8 @@ function Hero() {
 
       {/* Movie Thumbnail Cards */}
       {/* Movie Carousel */}
-      <div className="absolute bottom-3 left-4 sm:left-8 md:left-12 lg:left-20 w-[90%] overflow-hidden z-30">
-        <div className="flex justify-start gap-4">
+      <div className="absolute bottom-4 left-[10px] sm:left-10 w-full overflow-visible z-30 px-2 sm:px-6">
+        <div className="flex justify-start items-end gap-3 pl-2 sm:pl-8">
 
           <AnimatePresence initial={false} mode="popLayout">
 
@@ -200,10 +200,10 @@ function Hero() {
                     setCurrentIndex(movieIndex);
                     setVisibleStart(movieIndex);
                   }}
-                  className={`relative flex-shrink-0 w-16 h-24 sm:w-20 sm:h-28 overflow-hidden rounded-lg
+                  className={`relative flex-shrink-0 overflow-hidden rounded-lg
                     ${currentIndex === movieIndex
-                      ? "scale-130 border-2 border-cyan-400 z-10 opacity-100 shadow-[0_0_20px_rgba(34,211,238,0.6)]"
-                      : "scale-100 border border-white/20 opacity-60"
+                      ? "w-20 h-28 sm:w-24 sm:h-32 border-2 border-cyan-400 z-20 shadow-[0_0_25px_rgba(34,211,238,0.7)]"
+                      : "w-16 h-24 sm:w-20 sm:h-28 border border-white/20 opacity-60 z-10"
                     }
                   `}
                 >
