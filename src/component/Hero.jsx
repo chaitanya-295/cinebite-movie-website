@@ -2,10 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { getTrendingMovies } from '../services/tmdbApi.js';
 import { FaLessThan } from "react-icons/fa6";
 import { FaGreaterThan } from "react-icons/fa6";
+import { motion, AnimatePresence } from "motion/react";
 
 function Hero() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleStart, setVisibleStart] = useState(0);
 
   const autoSlideRef = useRef(null);
 
@@ -34,6 +36,10 @@ function Hero() {
     setCurrentIndex((prev) => {
       return prev === 0 ? trendingMovies.length - 1 : prev - 1
     });
+
+    setVisibleStart((prev) => {
+      return prev === 0 ? trendingMovies.length - 1 : prev - 1;
+    });
   };
 
   // Next Slide
@@ -41,6 +47,10 @@ function Hero() {
     if (trendingMovies.length === 0) return;
 
     setCurrentIndex((prev) => {
+      return (prev + 1) % trendingMovies.length;
+    });
+
+    setVisibleStart((prev) => {
       return (prev + 1) % trendingMovies.length;
     });
   };
@@ -148,13 +158,13 @@ function Hero() {
           <div className="flex gap-4">
             <button
               onClick={prevSlide}
-              className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center p-2 sm:p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
+              className="hidden sm:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
             >
               <FaLessThan />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center p-2 sm:p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
+              className="hidden sm:flex absolute right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 items-center justify-center p-4 bg-black/40 text-white rounded-full hover:bg-cyan-400 hover:text-black transition-all duration-300"
             >
               <FaGreaterThan />
             </button>
@@ -165,39 +175,50 @@ function Hero() {
 
       {/* Movie Thumbnail Cards */}
       {/* Movie Carousel */}
-      <div className="absolute bottom-2 left-0 w-full overflow-hidden z-30">
+      <div className="absolute bottom-3 left-4 sm:left-8 md:left-12 lg:left-20 w-[90%] overflow-hidden z-30">
+        <div className="flex justify-start gap-4">
 
-        <div className="flex gap-3 animate-movie-scroll w-max">
+          <AnimatePresence initial={false} mode="popLayout">
 
-          {/* First set */}
-          {trendingMovies.map((movie) => (
-            <div
-              key={`first-${movie.id}`}
-              className="w-16 h-24 md:w-20 md:h-28 flex-shrink-0 overflow-hidden rounded-lg"
-            >
-              <img
-                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+            {Array.from({ length: 5 }).map((_, position) => {
 
-          {/* Second set */}
-          {trendingMovies.map((movie) => (
-            <div
-              key={`first-${movie.id}`}
-              className="w-16 h-24 md:w-20 md:h-28 flex-shrink-0 overflow-hidden rounded-lg"
-            >
-              <img
-                src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+              const movieIndex = (visibleStart + position) % trendingMovies.length;
+              const movie = trendingMovies[movieIndex];
+
+              return (
+                <motion.button
+                  key={movie.id}
+                  layout
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                  onClick={() => {
+                    setCurrentIndex(movieIndex);
+                    setVisibleStart(movieIndex);
+                  }}
+                  className={`relative flex-shrink-0 w-16 h-24 sm:w-20 sm:h-28 overflow-hidden rounded-lg
+                    ${currentIndex === movieIndex
+                      ? "scale-130 border-2 border-cyan-400 z-10 opacity-100 shadow-[0_0_20px_rgba(34,211,238,0.6)]"
+                      : "scale-100 border border-white/20 opacity-60"
+                    }
+                  `}
+                >
+                  <img
+                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                    alt={movie.title}
+                    className="w-full h-full object-cover"
+                  />
+                </motion.button>
+              );
+
+            })}
+
+          </AnimatePresence>
         </div>
-
       </div>
     </div>
   );
