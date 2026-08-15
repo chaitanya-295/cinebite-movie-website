@@ -56,6 +56,7 @@ function Home() {
         title="Popular Movies"
         movies={popularMovies}
       />
+
     </div>
   );
 }

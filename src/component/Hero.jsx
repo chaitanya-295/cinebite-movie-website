@@ -103,11 +103,21 @@ function Hero() {
     <div className="relative w-full h-[550px] overflow-hidden">
 
       {/* Backgound Image */}
-      <img
-        src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-        alt={movie.title}
-        className="absolute insert-0 w-full object-cover"
-      />
+      <AnimatePresence initial={false} mode="sync">
+        <motion.img
+          key={movie.id}
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          alt={movie.title}
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "-100%" }}
+          transition={{
+            duration: 0.7,
+            ease: "easeInOut",
+          }}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </AnimatePresence>
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/30"></div>
