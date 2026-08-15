@@ -1,31 +1,34 @@
 import React from "react";
 
 function MovieCard({ movie }) {
+    const getRatingColor = (rating) => {
+        if (rating >= 7.5) return 'bg-green-500';
+        if (rating >= 6) return 'bg-yellow-400';
+        return 'bg-red-500';
+    }
+
     return (
-        <div className="relative w-36 h-[320px] md:w-46 rounded overflow-hidden shadow-lg grow-0 shrink-0 basis-auto hover:scale-105 transition duration-300 cursor-pointer bg-white dark:bg-[#1e1e1e] p-1">
+        <div className="relative w-full h-[280px] sm:h-[320px] overflow-hidden rounded-lg bg-[#1e1e1e] p-1 shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105">
+            <img
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                alt={movie.title || movie.name}
+                className="w-full h-[215px] sm:h-[250px] object-cover rounded"
+            />
 
-            {/* Movie Poster */}
-            <div className="w-full aspect-[2/3]">
-                <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    className="w-full h-full object-cover"
-                />
+            {movie.vote_average ? (
+                <div className={`absolute top-2 right-2 text-[10px] sm:text-xs font-bold px-2 py-1 rounded ${getRatingColor(movie.vote_average)}`}>
+                    ★ {movie.vote_average.toFixed(1)}
+                </div>
+            ) : null}
+
+            <div className="absolute bottom-0 left-0 w-full bg-[#1e1e1e] text-white text-center py-2 px-2">
+                <p className="text-sm sm:text-base font-semibold truncate">
+                    {movie.title || movie.name}
+                </p>
+                <p className="text-gray-400 text-xs sm:text-sm mt-1">
+                    {movie.release_date.slice(0, 4) || movie.first_air_date.slice(0, 4)}
+                </p>
             </div>
-
-            {/* Movie Details */}
-            <div className="px-2 py-2">
-                <h3 className="text-white text-lg font-bold leading-7">
-                    {movie.title}
-                </h3>
-
-                {movie.release_date && (
-                    <p className="text-gray-400 text-sm mt-1">
-                        {movie.release_date.slice(0, 4)}
-                    </p>
-                )}
-            </div>
-
         </div>
     );
 }
