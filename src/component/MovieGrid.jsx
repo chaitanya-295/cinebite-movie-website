@@ -23,7 +23,7 @@ function MovieGrid({ title, fetchFunction }) {
     return (
         <div>
             <div className='mt-4 mx-4 sm:mx-6 md:mx-10 lg:mx-16 mb-4 flex items-center justify-between'>
-                <h2 className='text-cyan-200 text-xl sm:text-2xl md:text-3xl font-semibold'>
+                <h2 className='text-cyan-200 text-xl sm:text-1xl md:text-2xl font-semibold'>
                     {title}
                 </h2>
 
