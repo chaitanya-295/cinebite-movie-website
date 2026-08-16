@@ -10,6 +10,13 @@ const tmdbApi = axios.create({
     },
 });
 
+export const getAllMovies = (page = 1) =>
+    tmdbApi.get("/discover/movie", {
+        params: {
+            page,
+        },
+    });
+
 export const getTrendingMovies = () =>
     tmdbApi.get("/trending/movie/week");
 

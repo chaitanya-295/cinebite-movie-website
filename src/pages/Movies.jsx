@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../component/MovieCard";
-import { getPopularMovies } from "../services/tmdbApi";
+import { getAllMovies } from "../services/tmdbApi";
 
 function Movies() {
     const [movies, setMovies] = useState([]);
@@ -11,7 +11,7 @@ function Movies() {
             try {
                 setLoading(true);
 
-                const response = await getPopularMovies();
+                const response = await getAllMovies();
 
                 setMovies(response.data.results || []);
             } catch (error) {
