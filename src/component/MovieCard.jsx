@@ -26,7 +26,7 @@ function MovieCard({ movie }) {
                     {movie.title || movie.name}
                 </p>
                 <p className="text-gray-400 text-xs sm:text-sm mt-1">
-                    {movie.release_date.slice(0, 4) || movie.first_air_date.slice(0, 4)}
+                    {(movie.release_date?.slice(0, 4) || movie.first_air_date?.slice(0, 4) || "N/A").slice(0, 4)}
                 </p>
             </div>
         </div>

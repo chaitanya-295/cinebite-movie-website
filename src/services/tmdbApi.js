@@ -22,6 +22,16 @@ export const getTopRatedMovies = () =>
 export const getUpcomingMovies = () =>
     tmdbApi.get("/movie/upcoming");
 
+export const getNowPlayingMovies = (page = 1) =>
+    tmdbApi.get("/movie/now_playing", {
+        params: { page },
+    });
+
+export const getPopularTV = (page = 1) =>
+    tmdbApi.get("/tv/popular", {
+        params: { page },
+    });
+
 export const searchMovies = (query) =>
     tmdbApi.get("/search/movie", {
         params: {

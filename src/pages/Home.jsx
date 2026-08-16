@@ -1,46 +1,65 @@
 import { useEffect, useState } from "react";
 import Hero from "../component/Hero";
 import MovieGrid from "../component/MovieGrid";
-import { getPopularMovies, getTrendingMovies } from "../services/tmdbApi";
+import { getNowPlayingMovies, getPopularTV, getTopRatedMovies } from "../services/tmdbApi";
 
 function Home() {
-  const [trendingMovies, setTrendingMovies] = useState([]);
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [tvshow, setTvShow] = useState([]);
+  const [topMovies, setTopMovies] = useState([]);
 
   useEffect(() => {
-    const fetchTrendingMovies = async () => {
+    const fetchNowPlayingMovies = async () => {
       try {
-        const response = await getTrendingMovies();
+        const response = await getNowPlayingMovies();
 
         const movies = response.data.results || [];
 
         console.log("Movies:", movies);
 
-        setTrendingMovies(movies);
+        setNowPlayingMovies(movies);
       } catch (error) {
         console.log("Error Fetching Movie", error);
       }
     };
 
-    fetchTrendingMovies();
+    fetchNowPlayingMovies();
   }, []);
 
   useEffect(() => {
-    const fetchPopularMovies = async () => {
+    const fetchTvShow = async () => {
       try {
-        const response = await getPopularMovies();
+        const response = await getPopularTV();
 
-        const movies = response.data.results || [];
+        const tvShow = response.data.results || [];
 
-        console.log("Movies:", movies);
+        console.log("TV Show:", tvShow);
 
-        setPopularMovies(movies);
+        setTvShow(tvShow);
       } catch (error) {
-        console.log("Error Fetching Movie", error);
+        console.log("Error Fetching Web Show", error);
       }
     };
 
-    fetchPopularMovies();
+    fetchTvShow();
+  }, []);
+
+  useEffect(() => {
+    const fetchTopRatedMovies = async () => {
+      try {
+        const response = await getTopRatedMovies();
+
+        const topMovies = response.data.results || [];
+
+        console.log("Top Movies:", topMovies);
+
+        setTopMovies(topMovies);
+      } catch (error) {
+        console.log("Error Fetching Top Movies", error);
+      }
+    };
+
+    fetchTopRatedMovies();
   }, []);
 
   return (
@@ -48,14 +67,21 @@ function Home() {
       <Hero />
 
       <MovieGrid
-        title="Trending Movies"
-        movies={trendingMovies}
+        title="Now Playing Movies"
+        movies={nowPlayingMovies}
       />
 
       <MovieGrid
-        title="Popular Movies"
-        movies={popularMovies}
+        title="Popular Web Show"
+        movies={tvshow}
       />
+
+      <MovieGrid
+        title="Top Rated Movies"
+        movies={topMovies}
+      />
+
+
 
     </div>
   );

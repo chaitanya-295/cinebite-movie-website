@@ -17,9 +17,14 @@ function MovieGrid({ title, movies }) {
             </div>
 
             <div className="px-4 sm:px-6 md:px-10 lg:px-16">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3 sm:gap-4">
-                    {movies.slice(0, 7).map((movie) => (
-                        <MovieCard key={movie.id} movie={movie} />
+                <div className="flex gap-4 overflow-x-auto overflow-y-hidden pb-4 scrollbar-hide">
+                    {movies.map((movie) => (
+                        <div
+                            key={movie.id}
+                            className="flex-shrink-0 w-36 sm:w-40 md:w-44 lg:w-48"
+                        >
+                            <MovieCard movie={movie} />
+                        </div>
                     ))}
                 </div>
             </div>
