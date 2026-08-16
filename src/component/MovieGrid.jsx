@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 import { FaArrowRight } from "react-icons/fa";
 
-function MovieGrid({ title, movies }) {
+function MovieGrid({ title, fetchFunction }) {
+    const [movies, setMovies] = useState([]);
+
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const response = await fetchFunction();
+
+                const movies = response.data.results || [];
+
+                setMovies(movies);
+            } catch (error) {
+                console.log("Error Fetching Movies", error);
+            }
+        };
+        fetchMovies();
+    }, []);
+
     return (
         <div>
             <div className='mt-4 mx-4 sm:mx-6 md:mx-10 lg:mx-16 mb-4 flex items-center justify-between'>

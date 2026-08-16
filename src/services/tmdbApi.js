@@ -39,6 +39,11 @@ export const searchMovies = (query) =>
         },
     });
 
+export const getAiringTodayTV = (page = 1) =>
+    tmdbApi.get("/tv/airing_today", {
+        params: { page },
+    });
+
 export const getMovieDetails = (movieId) =>
     tmdbApi.get(`/movie/${movieId}`, {
         params: {
