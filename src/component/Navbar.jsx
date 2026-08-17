@@ -56,21 +56,21 @@ function Navbar() {
               to="/popular"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
-              Popular
+              Series
             </Link>
 
             <Link
               to="/top-rated"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
-              Top Rated
+              Upcoming
             </Link>
 
             <Link
               to="/favorites"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
-              Favorites
+              About
             </Link>
 
           </div>

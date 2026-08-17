@@ -64,7 +64,10 @@ export const searchMovies = (query) =>
 
 export const getAiringTodayTV = (page = 1) =>
     tmdbApi.get("/tv/airing_today", {
-        params: { page },
+        params: {
+            language: "en-US",
+            page,
+        },
     });
 
 export const getMovieDetails = (movieId) =>

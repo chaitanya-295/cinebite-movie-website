@@ -4,7 +4,7 @@ import Home from './pages/Home'
 import Footer from "./component/Footer";
 import { Routes, Route } from "react-router-dom";
 import Movies from "./pages/Movies";
-import { getAllMovies } from "./services/tmdbApi";
+import { getAiringTodayTV, getAllMovies } from "./services/tmdbApi";
 
 function App() {
   return (
@@ -15,6 +15,8 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/movies" element={<Movies title="Now Playing Movies" fetchFunction={getAllMovies} />} />
+
+        <Route path="/series" element={<Movies title="Series" fetchFunction={getAiringTodayTV} />} />
 
       </Routes>
 

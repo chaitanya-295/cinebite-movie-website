@@ -26,6 +26,7 @@ function MovieGrid({ title, fetchFunction, type }) {
         navigate('/movies', {
             state: {
                 type,
+                page: 1,
             },
         });
     };
