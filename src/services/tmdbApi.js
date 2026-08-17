@@ -17,17 +17,33 @@ export const getAllMovies = (page = 1) =>
         },
     });
 
-export const getTrendingMovies = () =>
-    tmdbApi.get("/trending/movie/week");
+export const getTrendingMovies = (page = 1) =>
+    tmdbApi.get("/trending/movie/week", {
+        params: {
+            page,
+        },
+    });
 
-export const getPopularMovies = () =>
-    tmdbApi.get("/movie/popular");
+export const getPopularMovies = (page = 1) =>
+    tmdbApi.get("/movie/popular", {
+        params: {
+            page,
+        },
+    });
 
-export const getTopRatedMovies = () =>
-    tmdbApi.get("/movie/top_rated");
+export const getTopRatedMovies = (page = 1) =>
+    tmdbApi.get("/movie/top_rated", {
+        params: {
+            page,
+        },
+    });
 
-export const getUpcomingMovies = () =>
-    tmdbApi.get("/movie/upcoming");
+export const getUpcomingMovies = (page = 1) =>
+    tmdbApi.get("/movie/upcoming", {
+        params: {
+            page,
+        },
+    });
 
 export const getNowPlayingMovies = (page = 1) =>
     tmdbApi.get("/movie/now_playing", {

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import MovieCard from './MovieCard';
 import { FaArrowRight } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-function MovieGrid({ title, fetchFunction }) {
+function MovieGrid({ title, fetchFunction, type }) {
+    const navigate = useNavigate();
     const [movies, setMovies] = useState([]);
 
     useEffect(() => {
@@ -20,6 +22,14 @@ function MovieGrid({ title, fetchFunction }) {
         fetchMovies();
     }, []);
 
+    const handleSeeAll = () => {
+        navigate('/movies', {
+            state: {
+                type,
+            },
+        });
+    };
+
     return (
         <div>
             <div className='mt-4 mx-4 sm:mx-6 md:mx-10 lg:mx-16 mb-4 flex items-center justify-between'>
@@ -27,7 +37,10 @@ function MovieGrid({ title, fetchFunction }) {
                     {title}
                 </h2>
 
-                <button className='flex items-center gap-2 text-gray-300 text-sm md:text-base font-semibold transition-all duration-300 hover:text-cyan-400 group'>
+                <button
+                    className='flex items-center gap-2 text-gray-300 text-sm md:text-base font-semibold transition-all duration-300 hover:text-cyan-400 group'
+                    onClick={handleSeeAll}
+                >
                     <span>See All</span>
                     <FaArrowRight className='text-sm transition-transform duration-300 group-hover:translate-x-1' />
                 </button>

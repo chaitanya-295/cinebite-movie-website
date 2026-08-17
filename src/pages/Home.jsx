@@ -11,21 +11,25 @@ function Home() {
       <MovieGrid
         title="Now Playing Movies"
         fetchFunction={getNowPlayingMovies}
+        type="now_playing"
       />
 
       <MovieGrid
         title="Popular Web Show"
         fetchFunction={getPopularTV}
+        type="popular_tv"
       />
 
       <MovieGrid
         title="Top Rated Movies"
         fetchFunction={getTopRatedMovies}
+        type="top_rated"
       />
 
       <MovieGrid
         title="Currently Airing Shows"
         fetchFunction={getAiringTodayTV}
+        type="airing_today"
       />
     </div>
   );
