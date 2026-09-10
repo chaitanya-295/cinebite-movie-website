@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../component/MovieCard";
 import { useLocation } from "react-router-dom";
+import { getAllMovies, getAiringTodayTV, getNowPlayingMovies, getPopularTV, getTopRatedMovies } from "../services/tmdbApi";
 
-import {
-    getAllMovies,
-    getAiringTodayTV,
-    getNowPlayingMovies,
-    getPopularTV,
-    getTopRatedMovies,
-} from "../services/tmdbApi";
-
-function Movies({ title = "Explore Movies", fetchFunction }) {
+function Movies({ title, fetchFunction }) {
     const location = useLocation();
 
-    const { type = "movies" } = location.state || {};
+    const type = location.state?.type || null;
 
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
@@ -32,7 +25,7 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
         airing_today: "Currently Airing Shows",
     };
 
-    const currentTitle = pageTitles[type] || "Explore Movies";
+    const currentTitle = type ? pageTitles[type] : title || "Explore Movies";
 
 
     // Get API function
@@ -62,16 +55,21 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
         setPage(1);
         setHasMore(true);
         setInitialLoading(true);
-    }, [type]);
+    }, [type, fetchFunction]);
 
 
     // Fetch movies
     useEffect(() => {
         const fetchMovies = async () => {
             try {
-                const fetchFunction = getFetchFunction();
+                const apiFunction = type ? getFetchFunction() : fetchFunction;
 
-                const response = await fetchFunction(page);
+                if (!apiFunction) {
+                    console.error("No API function provided");
+                    return;
+                }
+
+                const response = await apiFunction(page);
 
                 const newMovies = response.data?.results || [];
 
@@ -79,7 +77,6 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
 
                 if (page === 1) {
                     setMovies(newMovies);
-                    setInitialLoading(false);
                 } else {
                     setMovies((prevMovies) => [
                         ...prevMovies,
@@ -101,7 +98,7 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
         };
 
         fetchMovies();
-    }, [type, page]);
+    }, [fetchFunction, type, page]);
 
 
     // Load More
@@ -138,35 +135,12 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
                     <input
                         type="text"
                         placeholder="Search for movies..."
-                        className="
-                            w-full
-                            bg-slate-900
-                            border border-slate-700
-                            text-white
-                            placeholder-gray-500
-                            px-5 py-3 pr-12
-                            rounded-full
-                            outline-none
-                            focus:border-cyan-400
-                            focus:ring-1
-                            focus:ring-cyan-400
-                        "
+                        className="w-full bg-slate-900 border border-slate-700 text-white placeholder-gray-500 px-5 py-3 pr-12 rounded-full outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
                     />
 
                     <button
                         type="button"
-                        className="
-                            absolute
-                            right-2
-                            top-1/2
-                            -translate-y-1/2
-                            w-9 h-9
-                            flex items-center justify-center
-                            rounded-full
-                            bg-cyan-400
-                            text-slate-950
-                            hover:bg-cyan-300
-                        "
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300"
                     >
                         🔍
                     </button>
@@ -190,15 +164,7 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
                 <>
 
                     {/* Movie Grid */}
-                    <div className="
-                        grid
-                        grid-cols-2
-                        sm:grid-cols-3
-                        md:grid-cols-4
-                        lg:grid-cols-5
-                        xl:grid-cols-7
-                        gap-4
-                    ">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-4">
 
                         {movies.map((movie) => (
                             <MovieCard
@@ -219,18 +185,7 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
                                 type="button"
                                 onClick={handleLoadMore}
                                 disabled={loadingMore}
-                                className="
-                                    px-8 py-3
-                                    bg-cyan-400
-                                    text-slate-950
-                                    font-semibold
-                                    rounded-full
-                                    hover:bg-cyan-300
-                                    hover:scale-105
-                                    transition-all duration-300
-                                    disabled:opacity-50
-                                    disabled:cursor-not-allowed
-                                "
+                                className="px-8 py-3 bg-cyan-400 text-slate-950 font-semibold rounded-full hover:bg-cyan-300 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {loadingMore
                                     ? "Loading..."
@@ -241,14 +196,12 @@ function Movies({ title = "Explore Movies", fetchFunction }) {
 
                     )}
 
-
                     {/* No More */}
                     {!hasMore && movies.length > 0 && (
                         <p className="text-center text-gray-500 mt-10">
                             No more movies to load.
                         </p>
                     )}
-
 
                     {/* Empty */}
                     {movies.length === 0 && (

@@ -53,21 +53,21 @@ function Navbar() {
             </Link>
 
             <Link
-              to="/popular"
+              to="/series"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
               Series
             </Link>
 
             <Link
-              to="/top-rated"
+              to="/upcoming"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
               Upcoming
             </Link>
 
             <Link
-              to="/favorites"
+              to="/about"
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
               About
@@ -131,27 +131,27 @@ function Navbar() {
               </Link>
 
               <Link
-                to="/popular"
+                to="/series"
                 onClick={closeMenu}
                 className="text-gray-300 hover:text-cyan-400 transition-colors"
               >
-                Popular
+                Series
               </Link>
 
               <Link
-                to="/top-rated"
+                to="/upcoming"
                 onClick={closeMenu}
                 className="text-gray-300 hover:text-cyan-400 transition-colors"
               >
-                Top Rated
+                Upcoming
               </Link>
 
               <Link
-                to="/favorites"
+                to="/about"
                 onClick={closeMenu}
                 className="text-gray-300 hover:text-cyan-400 transition-colors"
               >
-                Favorites
+                About
               </Link>
 
               {/* Mobile Auth */}

@@ -14,7 +14,7 @@ function App() {
 
         <Route path="/" element={<Home />} />
 
-        <Route path="/movies" element={<Movies title="Now Playing Movies" fetchFunction={getAllMovies} />} />
+        <Route path="/movies" element={<Movies title="Explore Movies" fetchFunction={getAllMovies} />} />
 
         <Route path="/series" element={<Movies title="Series" fetchFunction={getAiringTodayTV} />} />
 

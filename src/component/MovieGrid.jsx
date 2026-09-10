@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function MovieGrid({ title, fetchFunction, type }) {
     const navigate = useNavigate();
     const [movies, setMovies] = useState([]);
+    const [navigating, setNavigating] = useState(false);
 
     useEffect(() => {
         const fetchMovies = async () => {
@@ -20,15 +21,24 @@ function MovieGrid({ title, fetchFunction, type }) {
             }
         };
         fetchMovies();
-    }, []);
+    }, [fetchFunction]);
 
     const handleSeeAll = () => {
-        navigate('/movies', {
-            state: {
-                type,
-                page: 1,
-            },
-        });
+        setNavigating(true);
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        })
+
+        setTimeout(() => {
+            navigate('/movies', {
+                state: {
+                    type,
+                    page: 1,
+                },
+            });
+        }, 300);
     };
 
     return (
@@ -39,11 +49,23 @@ function MovieGrid({ title, fetchFunction, type }) {
                 </h2>
 
                 <button
+                    type='button'
                     className='flex items-center gap-2 text-gray-300 text-sm md:text-base font-semibold transition-all duration-300 hover:text-cyan-400 group'
                     onClick={handleSeeAll}
+                    disabled={navigating}
                 >
-                    <span>See All</span>
-                    <FaArrowRight className='text-sm transition-transform duration-300 group-hover:translate-x-1' />
+                    {navigating ? (
+                        <>
+                            <div className='w-4 h-4 border-2 border-gray-500 border-t-cyan-400 rounded-full animate-spin'></div>
+
+                            <span>Loading...</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>See All</span>
+                            <FaArrowRight className='text-sm transition-transform duration-300 group-hover:translate-x-1' />
+                        </>
+                    )}
                 </button>
             </div>
 
