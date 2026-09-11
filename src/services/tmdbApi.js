@@ -42,6 +42,7 @@ export const getUpcomingMovies = (page = 1) =>
     tmdbApi.get("/movie/upcoming", {
         params: {
             page,
+            language: "en-US",
         },
     });
 

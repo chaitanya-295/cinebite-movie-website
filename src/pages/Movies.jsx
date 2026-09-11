@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MovieCard from "../component/MovieCard";
 import { useLocation } from "react-router-dom";
 import { getAllMovies, getAiringTodayTV, getNowPlayingMovies, getPopularTV, getTopRatedMovies } from "../services/tmdbApi";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Movies({ title, fetchFunction }) {
     const location = useLocation();
@@ -115,9 +116,16 @@ function Movies({ title, fetchFunction }) {
     return (
         <div className="min-h-screen bg-slate-950 px-4 sm:px-6 md:px-10 lg:px-16 py-10">
 
+            <button
+                type="button"
+                onClick={() => window.history.back()}
+                className="group flex mb-5 items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-900/80 border border-slate-700 hover:border-cyan-400 hover:bg-cyan-400 transition-all duration-300 hover:scale-110 active:scale-95 shadow-lg hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]"
+            >
+                <FaArrowLeft className="text-white group-hover:text-slate-950 transition-all duration-300 group-hover:-translate-x-1 w-5 h-5 md:w-6 md:h-6" />
+            </button>
+
             {/* Header */}
             <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-
                 <div>
                     <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
                         {currentTitle}
