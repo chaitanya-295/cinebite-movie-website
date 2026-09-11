@@ -7,6 +7,7 @@ import Movies from "./pages/Movies";
 import { getAiringTodayTV, getAllMovies, getUpcomingMovies } from "./services/tmdbApi";
 import ScrollToTop from "./component/ScrollToTop";
 import About from "./pages/About";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
         <Route path="/upcoming" element={<Movies title="Upcoming Movies" fetchFunction={getUpcomingMovies} />} />
 
         <Route path="/about" element={<About />} />
+
+        <Route path="/login" element={<Login />} />
 
       </Routes>
 
