@@ -60,6 +60,15 @@ export const searchMovies = (query) =>
     tmdbApi.get("/search/movie", {
         params: {
             query,
+            language: "en-US",
+        },
+    });
+
+export const searchTV = (query) =>
+    tmdbApi.get("/search/tv", {
+        params: {
+            query,
+            language: "en-US",
         },
     });
 

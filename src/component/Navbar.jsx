@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { IoReorderThreeOutline, IoClose } from "react-icons/io5";
+import { searchMovies, searchTV } from "../services/tmdbApi";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,6 +10,48 @@ function Navbar() {
   const closeMenu = () => {
     setMobileMenuOpen(false);
   };
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  useEffect(() => {
+    const search = async () => {
+      if (!searchQuery.trim()) {
+        setSearchResult([]);
+        return;
+      }
+
+      try {
+        setSearchLoading(true);
+
+        const [movieResponse, tvResponse] = await Promise.all([
+          searchMovies(searchQuery),
+          searchTV(searchQuery),
+        ]);
+
+        const movies = (movieResponse.data?.results || []).map((movie) => ({
+          ...movie,
+          media_type: "movie",
+        }));
+
+        const tvShows = (tvResponse.data?.results || []).map((show) => ({
+          ...show,
+          media_type: "tv",
+        }));
+
+        setSearchResult([...movies, ...tvShows].slice(0, 8));
+      } catch (error) {
+        console.error("Search error:", error);
+      } finally {
+        setSearchLoading(false);
+      }
+    };
+
+    const timer = setTimeout(search, 400);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   return (
     <nav className="sticky top-0 z-50 bg-[#020617] border-b border-slate-800">
