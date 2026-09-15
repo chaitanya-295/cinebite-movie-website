@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../component/MovieCard";
 import { useLocation } from "react-router-dom";
-import { getAllMovies, getAiringTodayTV, getNowPlayingMovies, getPopularTV, getTopRatedMovies } from "../services/tmdbApi";
+import { getAllMovies, getAiringTodayTV, getNowPlayingMovies, getPopularTV, getTopRatedMovies, searchTV } from "../services/tmdbApi";
 import { FaArrowLeft } from "react-icons/fa";
 
 function Movies({ title, fetchFunction }) {
@@ -111,6 +111,48 @@ function Movies({ title, fetchFunction }) {
         setLoadingMore(true);
         setPage((prevPage) => prevPage + 1);
     };
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResult, setSearchResult] = useState([]);
+    const [searchLoading, setSearchLoading] = useState(false);
+
+    useEffect(() => {
+        const search = async () => {
+            if (!searchQuery.trim()) {
+                setSearchResult([]);
+                return;
+            }
+
+            try {
+                setSearchLoading(true);
+
+                const [movieResponse, tvResponse] = await Promise.all([
+                    searchMovies(searchQuery),
+                    searchTV(searchQuery),
+                ]);
+
+                const movies = (movieResponse.data?.results || []).map((movie) => ({
+                    ...movie,
+                    media_type: "movie",
+                }));
+
+                const shows = (tvResponse.data?.results || []).map((show) => ({
+                    ...show,
+                    media_type: "tv"
+                }));
+
+                setSearchResult([...movies, ...shows].slice(0, 8));
+            } catch (error) {
+                console.error("Search error:", error);
+            } finally {
+                setSearchLoading(false);
+            }
+        };
+
+        const timer = setTimeout(search, 400);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
 
 
     return (

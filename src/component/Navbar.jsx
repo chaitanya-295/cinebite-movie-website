@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { IoReorderThreeOutline, IoClose } from "react-icons/io5";
 import { searchMovies, searchTV } from "../services/tmdbApi";
+import { FaSearch } from "react-icons/fa";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -115,6 +116,71 @@ function Navbar() {
             >
               About
             </Link>
+
+            {/* Search Bar */}
+            <div className="relative w-64">
+              <div className="relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search movies & series..."
+                  className="w-full bg-slate-900 border border-slate-700 text-white placeholder-gray-500 px-4 py-2 pr-10 rounded-full outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
+                />
+                <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              </div>
+
+              {/* Search Result Dropdown */}
+              {searchQuery.trim() && (
+                <div className="absolute top-12 left-0 w-full bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50">
+
+                  {searchLoading ? (
+                    <div className="p-4 text-center text-gray-400">
+                      Searching...
+                    </div>
+                  ) : searchResult.length > 0 ? (
+                    searchResult.map((item) => (
+                      <div
+                        key={`${item.media_type}-${item.id}`}
+                        className="flex items-center gap-3 p-3 hover:bg-slate-800 cursor-pointer transition-colors"
+                      >
+                        {/* Poster */}
+                        {item.poster_path ? (
+                          <img
+                            src={`https://image.tmdb.org/t/p/w92${item.poster_path}`}
+                            alt={item.title || item.name}
+                            className="w-10 h-14 object-cover rounded"
+                          />
+                        ) : (
+                          <div className="w-10 h-14 bg-slate-800 rounded flex items-center justify-center text-xs text-gray-500">
+                            N/A
+                          </div>
+                        )}
+
+                        {/* Information */}
+                        <div className="min-w-0">
+                          <h3 className="text-white text-sm font-semibold truncate">
+                            {item.title || item.name}
+                          </h3>
+
+                          <p className="text-gray-400 text-xs mt-1">
+                            {item.media_type === "movie" ? "Movie" : "TV Series"}
+
+                            {" • "}
+
+                            {(item.release_date || item.first_air_date)?.slice(0, 4)}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-gray-400">
+                      No results found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
           </div>
 
