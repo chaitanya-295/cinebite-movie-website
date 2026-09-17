@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoReorderThreeOutline, IoClose } from "react-icons/io5";
 import { searchMovies, searchTV } from "../services/tmdbApi";
 import { FaSearch } from "react-icons/fa";
@@ -89,12 +89,12 @@ function Navbar() {
           <Link
             to="/"
             onClick={closeMenu}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 flex-shrink-0"
           >
             <img
               src={logo}
               alt="CineBite Logo"
-              className="w-10 h-10 object-contain"
+              className="w-10 h-10 sm:w-11 sm:h-11 object-contain"
             />
 
             <span className="text-xl sm:text-2xl font-bold text-white">
@@ -141,7 +141,7 @@ function Navbar() {
             </Link>
 
             {/* Search Bar */}
-            <div className="relative w-64 xl:w-64">
+            <div className="relative w-56 xl:w-64">
               <div className="relative">
                 <input
                   type="text"
@@ -166,7 +166,7 @@ function Navbar() {
           </div>
 
           {/* Desktop Login / Signup */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
 
             <Link
               to="/login"
@@ -186,13 +186,15 @@ function Navbar() {
 
           {/* Mobile Menu Button */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-white text-3xl"
+            className="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg text-white hover:bg-slate-900 transition-colors flex-shrink-0"
+            aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <IoClose />
+              <IoClose className="text-3xl" />
             ) : (
-              <IoReorderThreeOutline />
+              <IoReorderThreeOutline className="text-3xl" />
             )}
           </button>
 
@@ -202,12 +204,13 @@ function Navbar() {
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 border-t border-slate-800 pt-4 pb-3">
 
-            <div className="flex flex-col gap-4">
+            {/* Mobile Links */}
+            <div className="flex flex-col text-center justify-center gap-2">
 
               <Link
                 to="/"
                 onClick={closeMenu}
-                className="text-gray-300 hover:text-cyan-400 transition-colors"
+                className="px-3 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-900 transition-all"
               >
                 Home
               </Link>
@@ -215,7 +218,7 @@ function Navbar() {
               <Link
                 to="/movies"
                 onClick={closeMenu}
-                className="text-gray-300 hover:text-cyan-400 transition-colors"
+                className="px-3 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-900 transition-all"
               >
                 Movies
               </Link>
@@ -223,7 +226,7 @@ function Navbar() {
               <Link
                 to="/series"
                 onClick={closeMenu}
-                className="text-gray-300 hover:text-cyan-400 transition-colors"
+                className="px-3 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-900 transition-all"
               >
                 Series
               </Link>
@@ -231,7 +234,7 @@ function Navbar() {
               <Link
                 to="/upcoming"
                 onClick={closeMenu}
-                className="text-gray-300 hover:text-cyan-400 transition-colors"
+                className="px-3 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-900 transition-all"
               >
                 Upcoming
               </Link>
@@ -239,18 +242,18 @@ function Navbar() {
               <Link
                 to="/about"
                 onClick={closeMenu}
-                className="text-gray-300 hover:text-cyan-400 transition-colors"
+                className="px-3 py-3 rounded-lg text-gray-300 hover:text-cyan-400 hover:bg-slate-900 transition-all"
               >
                 About
               </Link>
 
               {/* Mobile Auth */}
-              <div className="flex items-center gap-4 pt-3 border-t border-slate-800">
+              <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-slate-800">
 
                 <Link
                   to="/login"
                   onClick={closeMenu}
-                  className="text-gray-300 hover:text-cyan-400 transition-colors"
+                  className="w-full sm:w-auto text-center px-5 py-3 rounded-lg border border-slate-700 text-gray-300 hover:border-cyan-400 hover:text-cyan-400 transition-all"
                 >
                   Login
                 </Link>
@@ -258,7 +261,7 @@ function Navbar() {
                 <Link
                   to="/signup"
                   onClick={closeMenu}
-                  className="px-5 py-2 rounded-full bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-colors"
+                  className="w-full sm:w-auto text-center px-5 py-3 rounded-lg bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-all"
                 >
                   Sign Up
                 </Link>
