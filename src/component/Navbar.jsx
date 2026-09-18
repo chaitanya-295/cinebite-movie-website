@@ -2,80 +2,14 @@ import React, { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { IoReorderThreeOutline, IoClose } from "react-icons/io5";
-import { searchMovies, searchTV } from "../services/tmdbApi";
-import { FaSearch } from "react-icons/fa";
-import SearchResults from "./SearchResults";
+import SearchBar from "./SearchBar";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchLoading, setSearchLoading] = useState(false);
 
   const closeMenu = () => {
     setMobileMenuOpen(false);
-    setSearchQuery("");
-    setSearchResult([]);
   };
-
-  useEffect(() => {
-    const search = async () => {
-      if (!searchQuery.trim()) {
-        setSearchResult([]);
-        return;
-      }
-
-      try {
-        setSearchLoading(true);
-
-        const [movieResponse, tvResponse] = await Promise.all([
-          searchMovies(searchQuery),
-          searchTV(searchQuery),
-        ]);
-
-        const movies = (movieResponse.data?.results || []).map((movie) => ({
-          ...movie,
-          media_type: "movie",
-        }));
-
-        const tvShows = (tvResponse.data?.results || []).map((show) => ({
-          ...show,
-          media_type: "tv",
-        }));
-
-        setSearchResult([...movies, ...tvShows].slice(0, 8));
-      } catch (error) {
-        console.error("Search error:", error);
-      } finally {
-        setSearchLoading(false);
-      }
-    };
-
-    const timer = setTimeout(search, 400);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  const navigate = useNavigate();
-
-  const handleSearchSelect = (item) => {
-    setSearchQuery("");
-    setSearchResult([]);
-
-    if (item.media_type === "movie") {
-      navigate(`/movie/${item.id}`);
-    } else {
-      navigate(`/tv/${item.id}`);
-    }
-  };
-
-  // Clear search when menu closes
-  useEffect(() => {
-    if (!mobileMenuOpen) {
-      setSearchQuery("");
-      setSearchResult([]);
-    }
-  }, [mobileMenuOpen]);
 
   return (
     <nav className="sticky top-0 z-50 bg-[#020617] border-b border-slate-800">
@@ -141,27 +75,7 @@ function Navbar() {
             </Link>
 
             {/* Search Bar */}
-            <div className="relative w-56 xl:w-64">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search movies & series..."
-                  className="w-full bg-slate-900 border border-slate-700 text-white placeholder-gray-500 px-4 py-2.5 pr-11 rounded-full outline-none text-sm focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all duration-300"
-                />
-                <FaSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              </div>
-
-              {/* Search Result Dropdown */}
-              {searchQuery.trim() && (
-                <SearchResults
-                  results={searchResult}
-                  loading={searchLoading}
-                  onSelect={handleSearchSelect}
-                />
-              )}
-            </div>
+            <SearchBar />
 
           </div>
 
